@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +22,8 @@ import { ModalCadastroComponent } from './components/modal-cadastro/modal-cadast
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    SharedMaterialModule
+    SharedMaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

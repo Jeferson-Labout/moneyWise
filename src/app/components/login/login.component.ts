@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private dialog: MatDialog
   ) {
+    
 
 
   }
@@ -27,9 +28,9 @@ export class LoginComponent implements OnInit {
 
   criarFormulario() {
     this.cadastroForm = this.formBuilder.group({
-      name: [null, Validators.required],
-      email: [null, Validators.required, Validators.email],
-      age: [null, Validators.required]
+      name: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      age: [null, [Validators.required]]
 
 
     });
@@ -70,5 +71,8 @@ export class LoginComponent implements OnInit {
 
     return form.controls[control].value;
   }
+
+
+  
 
 }
