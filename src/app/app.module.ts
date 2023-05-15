@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedMaterialModule } from './shared/shared-material/shared-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalCadastroComponent } from './components/modal-cadastro/modal-cadastro.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,13 @@ import { ModalCadastroComponent } from './components/modal-cadastro/modal-cadast
     BrowserAnimationsModule,
     ReactiveFormsModule,
     SharedMaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+    closeButton: true,
+    progressBar: true,
+    positionClass: 'toast-top-right'
+
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

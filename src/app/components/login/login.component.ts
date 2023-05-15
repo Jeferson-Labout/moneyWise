@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCadastroComponent } from '../modal-cadastro/modal-cadastro.component';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,13 @@ import { ModalCadastroComponent } from '../modal-cadastro/modal-cadastro.compone
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   cadastroForm!: FormGroup;
+  loginForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog, private service: ApiService
   ) {
-    
+
 
 
   }
@@ -33,7 +34,11 @@ export class LoginComponent implements OnInit {
       age: [null, [Validators.required]]
 
 
-    });
+    }),
+      this.loginForm = this.formBuilder.group({
+        email: [null, [Validators.required, Validators.email]],
+        password: [null, [Validators.required]]
+      })
 
   }
 
@@ -64,6 +69,39 @@ export class LoginComponent implements OnInit {
     }
 
     return dadosModal;
+    
+  }
+
+
+  login() {
+    if (this.isValidaformulario()) {
+
+      const { email } = this.criarDadosLogin();
+      this.service.loginUsuario(this.criarDadosLogin()).pipe()
+
+
+    }
+  }
+
+
+  
+
+  isValidaformulario(): boolean {
+
+    return this.loginForm.valid;
+  }
+  
+  criarDadosLogin(
+    email = this.obterValorFormulario(this.loginForm, 'email'),
+    password = this.obterValorFormulario(this.loginForm, 'password')
+  ) {
+
+    const dadosLogin = {
+      email,
+      password
+    }
+
+    return dadosLogin;
 
   }
 
@@ -73,6 +111,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-  
+
 
 }

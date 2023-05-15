@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CadastroUsuario } from 'src/app/interfaces/cadastro-usuario';
 import { ApiService } from 'src/app/services/api.service';
 import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { UtilsService } from 'src/app/services/utils.service';
 import { FormValidations } from 'src/app/shared/validations/form-validations';
 
 @Component({
@@ -18,10 +19,13 @@ export class ModalCadastroComponent implements OnInit, OnDestroy {
   isDefault: boolean = true;
   destroy$: Subject<boolean> = new Subject<boolean>()
   isDefaultImage = '../../../assets/images/default.png';
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, 
-  private service: ApiService,
-  
-  private serviceLocalStorege: LocalstorageService) {
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ,private formBuilder: FormBuilder
+    ,private service: ApiService
+    ,private serviceLocalStorege: LocalstorageService
+    ,private utilsService:UtilsService) {
 
 
   }
@@ -65,7 +69,7 @@ export class ModalCadastroComponent implements OnInit, OnDestroy {
     name = this.obterValorFormulario(this.cadastroForm, 'name'),
     email = this.obterValorFormulario(this.cadastroForm, 'email'),
     age = this.obterValorFormulario(this.cadastroForm, 'age'),
-    avatar = this.obterValorFormulario(this.cadastroForm, 'avatar'),
+    image = this.obterValorFormulario(this.cadastroForm, 'avatar'),
     password = this.obterValorFormulario(this.cadastroForm, 'password'),
     confirmPassword = this.obterValorFormulario(this.cadastroForm, 'confirmPassword')
 
@@ -76,7 +80,7 @@ export class ModalCadastroComponent implements OnInit, OnDestroy {
       name,
       email,
       age,
-      avatar,
+      image,
       password,
       confirmPassword
     }
@@ -97,7 +101,8 @@ export class ModalCadastroComponent implements OnInit, OnDestroy {
 
       ).subscribe((res: CadastroUsuario) => {
 
-        console.log(res.message );
+        this.utilsService.showSuccess(res.message)
+
 
         this.serviceLocalStorege.setLocalStorage('userInfo', JSON.stringify(res.user));
         this.atualizaPagina();

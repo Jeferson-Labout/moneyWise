@@ -13,19 +13,21 @@
           <mat-card class="custom-style-card">
             <mat-tab-group>
               <mat-tab label="ENTRAR">
-                <form>
+                <form [formGroup]="loginForm"
+                (ngSubmit)="login()">
                   <div class="input-group mb-3">
                     <input type="email" class="form-control" placeholder="E-mail" aria-label="email"
-                      aria-describedby="email" />
+                      aria-describedby="email" formControlName="email"/>
                   </div>
 
                   <div class="input-group mb-3">
                     <input type="password" class="form-control" placeholder="Senha" aria-label="password"
-                      aria-describedby="password" />
+                      aria-describedby="password" formControlName="password" />
                   </div>
 
                   <div class="d-grid gap-2">
-                    <button class="btn btn-primary btn-login" type="submit">
+                    <button class="btn btn-primary btn-login" type="submit"
+                    [disabled]="loginForm.invalid">
                       ENTRAR
                     </button>
                   </div>
