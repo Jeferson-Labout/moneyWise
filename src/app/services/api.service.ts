@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { enviremonent } from 'src/enviremonents/enviremonent';
 import { CadastroUsuario } from '../interfaces/cadastro-usuario';
 import { UtilsService } from './utils.service';
 import { LoginUsuario } from '../interfaces/loginUsuario';
+import { DownloadImagem } from '../interfaces/downloadImage';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,27 @@ export class ApiService {
       })
     )
   }
+  downloadImagem(imgNome: string) : Observable<DownloadImagem> {
+    const headers = new HttpHeaders().set('imgName', imgNome)
+    return this.http.get<DownloadImagem>(enviremonent.BASE_URL + '/download/image', { headers : headers })
+    .pipe(
+      catchError((err) => {
+        if (err.status === 0 && err.status !== 404) {
+          this.utilsService.showError('Ocorreu um erro na API');
 
+        } else if (err.status === 404) {
+
+          this.utilsService.showError(err.error.message);
+        }
+        else {
+
+          this.utilsService.showError('Ocorreu um erro no servidor ');
+        }
+        return throwError(() => err)
+
+      })
+
+
+    )
+  }
 }
